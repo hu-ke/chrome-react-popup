@@ -13,9 +13,11 @@
       "js": ["./static/js/content.js"]
     }
   ],
-  "permissions": [
-    "activeTab"
-  ],
+  "background": {
+    "service_worker": "./background.js",
+    "type": "module"
+  },
+  "permissions": ["activeTab", "storage", "contextMenus", "notifications", "scripting"],
   "icons": {
     "16": "logo192.png",
     "48": "logo192.png",
