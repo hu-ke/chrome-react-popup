@@ -10,7 +10,8 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["./static/js/content.js"]
+      "js": ["./static/content/js/chunk-vendors.js", "./static/content/js/app.js"],
+      "css": ["./static/content/css/app.css"]
     }
   ],
   "background": {

@@ -8,6 +8,7 @@ function getCurrentTabId() {
 }
 
 chrome.runtime.onInstalled.addListener(function() {
+  console.log('background.js onInstalled')
   chrome.contextMenus.removeAll(function() {
     // 右键菜单栏
     chrome.contextMenus.create({
@@ -19,10 +20,9 @@ chrome.runtime.onInstalled.addListener(function() {
     async function contextClick(info, tab) {
       const { menuItemId, srcUrl } = info
       const tabId = await getCurrentTabId()
+      console.log('menuItemId, srcUrl, tabId>>', menuItemId, srcUrl, tabId, info)
       if (menuItemId === 'scanProduct') {
         if (srcUrl) {
-          console.log('srcUrl>>', srcUrl)
-          console.log('tabId>>', tabId)
           try { 
             await chrome.tabs.sendMessage(tabId, {  type: 'scanClick', srcUrl })
           } catch(e) {
@@ -37,8 +37,13 @@ chrome.runtime.onInstalled.addListener(function() {
   });
 });
 
-chrome.runtime.onMessage.addListener(async(request, sender, sendRepoonse) => {
-  // switch(request.operation) {
-  //   await 
-  // }
+chrome.runtime.onMessage.addListener((request, sender, sendReponse) => {
+  switch(request.operation) {
+    case 'captureVisibleTab':
+      chrome.tabs.captureVisibleTab().then(res => {
+        sendReponse(res)
+      })
+      break;
+  }
+  return true
 })
